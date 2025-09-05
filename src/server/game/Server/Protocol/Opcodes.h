@@ -1,6 +1,5 @@
 /*
- * Copyright (C) 2008-2018 TrinityCore <https://www.trinitycore.org/>
- * Copyright (C) 2005-2009 MaNGOS <http://getmangos.com/>
+ * This file is part of the DestinyCore Project. See AUTHORS file for Copyright information
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -20,8 +19,8 @@
 /// @{
 /// \file
 
-#ifndef _OPCODES_H
-#define _OPCODES_H
+#ifndef OPCODES_H
+#define OPCODES_H
 
 #include "Define.h"
 #include <string>
@@ -1076,6 +1075,7 @@ enum OpcodeServer : uint16
     SMSG_GAME_SPEED_SET                               = 0x26AA,
     SMSG_GAME_TIME_SET                                = 0x274B,
     SMSG_GAME_TIME_UPDATE                             = 0x274A,
+    SMSG_GARRISON_FOLLOWER_CATEGORIES                 = 0x2901,
     SMSG_GARRISON_ADD_FOLLOWER_RESULT                 = 0x2902,
     SMSG_GARRISON_ADD_MISSION_RESULT                  = 0x2906,
     SMSG_GARRISON_ASSIGN_FOLLOWER_TO_BUILDING_RESULT  = 0x2918,
@@ -1084,7 +1084,8 @@ enum OpcodeServer : uint16
     SMSG_GARRISON_BUILDING_REMOVED                    = 0x28F4,
     SMSG_GARRISON_BUILDING_SET_ACTIVE_SPECIALIZATION_RESULT = 0x28F6,
     SMSG_GARRISON_CLEAR_ALL_FOLLOWERS_EXHAUSTION      = 0x2916,
-    SMSG_GARRISON_COMPLETE_MISSION_RESULT             = 0x2908,
+    SMSG_GARRISON_COMPLETE_MISSION_RESULT             = 0x2909,
+    SMSG_GARRISON_COMPLETE_MISSION_RESULT_NEW         = 0x2908,
     SMSG_GARRISON_CREATE_RESULT                       = 0x28FC,
     SMSG_GARRISON_DELETE_RESULT                       = 0x2920,
     SMSG_GARRISON_FOLLOWER_CHANGED_ABILITIES          = 0x2914,
@@ -1120,6 +1121,8 @@ enum OpcodeServer : uint16
     SMSG_GARRISON_REMOVE_FOLLOWER_FROM_BUILDING_RESULT = 0x2919,
     SMSG_GARRISON_REMOVE_FOLLOWER_RESULT              = 0x2903,
     SMSG_GARRISON_REQUEST_BLUEPRINT_AND_SPECIALIZATION_DATA_RESULT = 0x28F9,
+    SMSG_GARRISON_RESEARCH_TALENT                     = 0x28FE,
+    SMSG_GARRISON_RESPONSE_CLASS_SPEC_CASTEGORY_INFO  = 0x2901,
     SMSG_GARRISON_START_MISSION_RESULT                = 0x2907,
     SMSG_GARRISON_UNLEARN_BLUEPRINT_RESULT            = 0x28F8,
     SMSG_GARRISON_UPGRADE_RESULT                      = 0x28FD,

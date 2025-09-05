@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008-2018 TrinityCore <https://www.trinitycore.org/>
+ * This file is part of the DestinyCore Project. See AUTHORS file for Copyright information
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -15,8 +15,8 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef GarrisonMgr_h__
-#define GarrisonMgr_h__
+#ifndef GARRISONMGR_H
+#define GARRISONMGR_H
 
 #include "DB2Stores.h"
 #include "Define.h"
@@ -48,6 +48,17 @@ struct FinalizeGarrisonPlotGOInfo
     } FactionInfo[2];
 };
 
+struct GarrisonClassHallPlotGOInfo
+{
+    uint32 PlotId;
+    uint32 CreatureId;
+    uint32 GameObjectId;
+    Position Pos;
+    uint16 AnimKitId;
+    uint32 workDisplayId;
+    uint32 completeDisplayId;
+};
+
 struct GarrAbilities
 {
     std::unordered_set<GarrAbilityEntry const*> Counters;
@@ -70,8 +81,11 @@ public:
     uint32 GetGarrBuildingPlotInst(uint32 garrBuildingId, uint32 garrSiteLevelPlotInstId) const;
     uint32 GetPreviousLevelBuildingId(uint32 buildingType, uint32 currentLevel) const;
     FinalizeGarrisonPlotGOInfo const* GetPlotFinalizeGOInfo(uint32 garrPlotInstanceID) const;
+    GarrisonClassHallPlotGOInfo const* GetPlotClassHallGOInfo(uint32 garrPlotInstanceID) const;
+    std::vector<GarrisonClassHallPlotGOInfo> GetPlotClassHallByCreatureId(uint32 creatureID) const;
     uint64 GenerateFollowerDbId();
     uint64 GenerateMissionDbId();
+    uint64 GenerateWorkorderDbId();
     std::list<GarrAbilityEntry const*> RollFollowerAbilities(uint32 garrFollowerId, GarrFollowerEntry const* follower, uint32 quality, uint32 faction, bool initial) const;
     std::list<GarrAbilityEntry const*> GetClassSpecAbilities(GarrFollowerEntry const* follower, uint32 faction) const;
 
@@ -83,6 +97,7 @@ private:
     void InitializeDbIdSequences();
     void LoadPlotFinalizeGOInfo();
     void LoadFollowerClassSpecAbilities();
+    void LoadPlotClassHallGOInfo();
 
     std::unordered_map<uint32 /*garrSiteId*/, std::vector<GarrSiteLevelPlotInstEntry const*>> _garrisonPlotInstBySiteLevel;
     std::unordered_map<uint32 /*mapId*/, std::unordered_map<uint32 /*garrPlotId*/, GameObjectsEntry const*>> _garrisonPlots;
@@ -90,12 +105,14 @@ private:
     std::unordered_map<std::pair<uint32 /*garrBuildingId*/, uint32 /*garrSiteLevelPlotInstId*/>, uint32 /*garrBuildingPlotInstId*/> _garrisonBuildingPlotInstances;
     std::unordered_map<uint32 /*buildingType*/, std::vector<uint32>> _garrisonBuildingsByType;
     std::unordered_map<uint32 /*garrPlotInstanceId*/, FinalizeGarrisonPlotGOInfo> _finalizePlotGOInfo;
+    std::unordered_map<uint32 /*garrPlotInstanceId*/, GarrisonClassHallPlotGOInfo> _classHallPlotGOInfo;
     std::unordered_map<uint32 /*garrFollowerId*/, GarrAbilities> _garrisonFollowerAbilities[2];
     std::unordered_map<uint32 /*classSpecId*/, std::list<GarrAbilityEntry const*>> _garrisonFollowerClassSpecAbilities;
     std::set<GarrAbilityEntry const*> _garrisonFollowerRandomTraits;
 
     uint64 _followerDbIdGenerator = UI64LIT(1);
     uint64 _missionDbIdGenerator = UI64LIT(1);
+    uint64 _workorderDbIdGenerator = UI64LIT(1);
 };
 
 #define sGarrisonMgr GarrisonMgr::Instance()
