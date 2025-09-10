@@ -22,6 +22,7 @@
 #include "ToolSocketMgr.h"
 
 #include <boost/system/error_code.hpp>
+#include <boost/asio/version.hpp>
 
 static void OnToolSocketAccept(tcp::socket&& sock, uint32 threadIndex)
 {
@@ -42,7 +43,12 @@ bool ToolSocketMgr::StartNetwork(Trinity::Asio::IoContext& ioContext, std::strin
 {
 	_tcpNoDelay = sConfigMgr->GetBoolDefault("Network.TcpNodelay", true);
 
+	// Boost 1.70+ přejmenovalo max_connections -> max_listen_connections
+#if defined(BOOST_ASIO_VERSION) && (BOOST_ASIO_VERSION >= 101700)
+	int const max_connections = boost::asio::socket_base::max_listen_connections;
+#else
 	int const max_connections = boost::asio::socket_base::max_connections;
+#endif
 	TC_LOG_DEBUG("misc", "Max allowed socket connections %d", max_connections);
 
 	// -1 means use default
